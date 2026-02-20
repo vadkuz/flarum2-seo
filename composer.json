@@ -1,0 +1,50 @@
+{
+  "name": "vadkuz/flarum2-seo",
+  "description": "SEO extension for Flarum 2.x with blog integration and sitemap fallback",
+  "type": "flarum-extension",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Vadkuz",
+      "email": "vadkuz@crypto-forum.ru"
+    }
+  ],
+  "homepage": "https://github.com/vadkuz/flarum2-seo",
+  "support": {
+    "issues": "https://github.com/vadkuz/flarum2-seo/issues",
+    "source": "https://github.com/vadkuz/flarum2-seo"
+  },
+  "autoload": {
+    "psr-4": {
+      "Vadkuz\\Flarum2Seo\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^8.2",
+    "flarum/core": "^2.0.0-beta.6",
+    "ext-json": "*"
+  },
+  "conflict": {
+    "zerosonesfun/elint": "*",
+    "franzl/flarum-open-links-in-new-tab": "*"
+  },
+  "suggest": {
+    "fof/sitemap": "Allows you to generate powerful sitemap.xml files"
+  },
+  "extra": {
+    "flarum-extension": {
+      "title": "SEO Flarum v2",
+      "category": "feature",
+      "optional-dependencies": [
+        "flarum/tags",
+        "fof/pages",
+        "fof/best-answer"
+      ],
+      "icon": {
+        "name": "fas fa-check",
+        "backgroundColor": "#0072ff",
+        "color": "#ffffff"
+      }
+    }
+  }
+}

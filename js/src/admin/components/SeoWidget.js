@@ -2,6 +2,10 @@ import DashboardWidget from 'flarum/admin/components/DashboardWidget';
 import Button from 'flarum/common/components/Button';
 
 export default class SeoWidget extends DashboardWidget {
+  trans(key) {
+    return app.translator.trans(`vadkuz-flarum2-seo.admin.widget.${key}`);
+  }
+
   oninit(vnode) {
     super.oninit(vnode);
 
@@ -24,13 +28,14 @@ export default class SeoWidget extends DashboardWidget {
   content() {
     return (
       <div>
-        <i className="fas fa-check seo-check-icon"></i> It's time to review your SEO settings!
+        <i className="fas fa-check seo-check-icon"></i>{" "}
+        {this.trans("review_message")}
 
         {Button.component({
           className: '',
           icon: 'far fa-thumbs-up',
           onclick: () => m.route.set("extension/vadkuz-flarum2-seo")
-        }, 'Do the health-check!')}
+        }, this.trans("review_action"))}
       </div>
     );
   }

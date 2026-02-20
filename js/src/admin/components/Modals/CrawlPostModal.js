@@ -1,24 +1,31 @@
-import Modal from 'flarum/common/components/Modal';
-import Button from 'flarum/common/components/Button';
-import Switch from 'flarum/common/components/Switch';
-import saveSettings from 'flarum/admin/utils/saveSettings';
+import Modal from "flarum/common/components/Modal";
+import Button from "flarum/common/components/Button";
+import Switch from "flarum/common/components/Switch";
+import saveSettings from "flarum/admin/utils/saveSettings";
 
 export default class CrawlPostModal extends Modal {
   oninit(vnode) {
     super.oninit(vnode);
 
-    this.value = typeof app.data.settings.seo_post_crawler === "undefined" ? false : app.data.settings.seo_post_crawler;
+    this.value =
+      typeof app.data.settings.seo_post_crawler === "undefined"
+        ? false
+        : app.data.settings.seo_post_crawler;
     this.startValue = this.value;
-    this.closeText = 'Close';
+    this.closeText = this.trans("close");
     this.loading = false;
 
-    if(typeof app.data.settings.seo_reviewed_post_crawler === "undefined") {
+    if (typeof app.data.settings.seo_reviewed_post_crawler === "undefined") {
       this.saveReviewedPostCrawler();
     }
   }
 
+  trans(key) {
+    return app.translator.trans(`vadkuz-flarum2-seo.admin.modals.crawl_post.${key}`);
+  }
+
   title() {
-    return 'Post crawl settings';
+    return this.trans("title");
   }
 
   content() {
@@ -26,27 +33,49 @@ export default class CrawlPostModal extends Modal {
       <div>
         <div className="Modal-body">
           <div className="Form">
-            <b>Read this dialog carefully.</b> This function will only be executed on a page refresh on a discussion. You can always change this option later.
+            <b>{this.trans("intro_title")}</b> {this.trans("intro_text")}
 
             <div style="padding: 10px 0;">
-              <b style="display: block; padding-bottom: 10px;"><span style="display: inline-block; width: 25px;"><i className="fas fa-check"></i></span>Only index the main post (default)</b>
-              Search engine will only show the main post in the search results. It won't affect loading speed when you navigate to it via forum links.
+              <b style="display: block; padding-bottom: 10px;">
+                <span style="display: inline-block; width: 25px;">
+                  <i className="fas fa-check"></i>
+                </span>
+                {this.trans("option_default_title")}
+              </b>
+              {this.trans("option_default_body")}
             </div>
 
             <div style="padding: 10px 0;">
-              <b style="display: block; padding-bottom: 10px;"><span style="display: inline-block; width: 25px;"><i className="fas fa-check-double"></i></span> Index all posts in a discussion (setting enabled)</b>
-              Search engines will understand the discussions and are even able to show some relevant posts underneath the search results. When you have the extension '<a href="https://discuss.flarum.org/d/21894-friendsofflarum-best-answer" target="_blank">best answer</a>' installed and enabled on your forum, it will mark the discussion as 'answered' on the search results and redirect the user to that specific post. <b>However, depending on your server settings, this can be heavier</b>. It may cost some performance, so it depends on how fast your server is to enable this feature.
+              <b style="display: block; padding-bottom: 10px;">
+                <span style="display: inline-block; width: 25px;">
+                  <i className="fas fa-check-double"></i>
+                </span>
+                {this.trans("option_all_posts_title")}
+              </b>
+              {this.trans("option_all_posts_body_before")}{" "}
+              <a
+                href="https://discuss.flarum.org/d/21894-friendsofflarum-best-answer"
+                target="_blank"
+              >
+                {this.trans("option_all_posts_best_answer_link")}
+              </a>{" "}
+              {this.trans("option_all_posts_body_after")}
             </div>
           </div>
         </div>
         <div style="padding: 25px 30px; text-align: center;">
-          <b style="display: block; padding-bottom: 10px;">Do you want to enable this feature?</b>
+          <b style="display: block; padding-bottom: 10px;">
+            {this.trans("confirm_title")}
+          </b>
 
           <div style="display: inline-block;">
-            {Switch.component({
-              state: this.value == '1',
-              onchange: (value) => this.change(value),
-            }, 'Crawl all posts (it\'s slower on page refresh, but search results will be better)')}
+            {Switch.component(
+              {
+                state: this.value == "1",
+                onchange: (value) => this.change(value),
+              },
+              this.trans("toggle_label")
+            )}
           </div>
         </div>
         <div style="padding: 25px 30px; text-align: center;">
@@ -58,43 +87,36 @@ export default class CrawlPostModal extends Modal {
 
   change(value) {
     this.value = value;
-
-    this.closeText = this.value !== this.startValue ? 'Save changes' : 'Close';
+    this.closeText =
+      this.value !== this.startValue ? this.trans("save_changes") : this.trans("close");
   }
 
   closeDialogButton() {
     return (
-      <Button
-        type="submit"
-        className="Button Button--primary"
-        loading={this.loading}>
+      <Button type="submit" className="Button Button--primary" loading={this.loading}>
         {this.closeText}
       </Button>
     );
   }
 
-  // Close or save setting
-  onsubmit(e) {
-    if(this.value === this.startValue) {
+  onsubmit() {
+    if (this.value === this.startValue) {
       this.hide();
       return;
     }
 
     this.loading = true;
 
-    let data = {};
+    const data = {};
     data.seo_post_crawler = this.value;
 
-    saveSettings(data).then(
-      this.onsaved.bind(this)
-    );
+    saveSettings(data).then(this.onsaved.bind(this));
   }
 
-  // Save post crawler reviewed
   saveReviewedPostCrawler() {
     this.loading = true;
 
-    let data = {};
+    const data = {};
     data.seo_reviewed_post_crawler = true;
 
     saveSettings(data).then(() => {

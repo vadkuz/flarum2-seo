@@ -1,50 +1,50 @@
-import Component from 'flarum/common/Component';
-import FieldSet from 'flarum/common/components/FieldSet';
-import Button from 'flarum/common/components/Button';
-import saveSettings from 'flarum/admin/utils/saveSettings';
-import Switch from 'flarum/common/components/Switch';
-import UploadImageButton from 'flarum/common/components/UploadImageButton';
+import Component from "flarum/common/Component";
+import FieldSet from "flarum/common/components/FieldSet";
+import Button from "flarum/common/components/Button";
+import saveSettings from "flarum/admin/utils/saveSettings";
+import Switch from "flarum/common/components/Switch";
+import UploadImageButton from "flarum/common/components/UploadImageButton";
 import CrawlPostModal from "../Modals/CrawlPostModal";
 import RobotsModal from "../Modals/RobotsModal";
-import countKeywords from '../../utils/countKeywords';
-import Stream from 'flarum/common/utils/Stream';
-import DoFollowListModal from '../Modals/DoFollowListModal';
-import Select from 'flarum/common/components/Select';
-import ItemList from 'flarum/common/utils/ItemList';
+import countKeywords from "../../utils/countKeywords";
+import Stream from "flarum/common/utils/Stream";
+import DoFollowListModal from "../Modals/DoFollowListModal";
+import Select from "flarum/common/components/Select";
+import ItemList from "flarum/common/utils/ItemList";
 
 export default class SeoSettings extends Component {
   oninit(vnode) {
     super.oninit(vnode);
 
     this.saving = false;
-
     this.fields = [
-      'forum_title',
-      'forum_description',
-      'forum_keywords',
-      'seo_allow_all_bots',
-      'seo_twitter_card_size'
+      "forum_title",
+      "forum_description",
+      "forum_keywords",
+      "seo_allow_all_bots",
+      "seo_twitter_card_size",
     ];
     this.values = {};
 
     const settings = app.data.settings;
-    this.fields.forEach(key => this.values[key] = Stream(settings[key] || ""));
+    this.fields.forEach((key) => (this.values[key] = Stream(settings[key] || "")));
 
     this.allowBotsValue = settings.seo_allow_all_bots !== "0";
 
-    // Cheat 'seo_social_media_imageUrl'
-    // Todo: Find a better way
-    app.forum.data.attributes.seo_social_media_imageUrl = app.data.settings.seo_social_media_image_url;
+    app.forum.data.attributes.seo_social_media_imageUrl =
+      app.data.settings.seo_social_media_image_url;
 
-    this.showField = 'all';
+    this.showField = "all";
 
-    // Single field
-    if(m.route.param('setting') !== undefined) {
-      this.showField = m.route.param('setting');
+    if (m.route.param("setting") !== undefined) {
+      this.showField = m.route.param("setting");
     }
   }
 
-  // Create the form
+  trans(key, params = {}) {
+    return app.translator.trans(`vadkuz-flarum2-seo.admin.settings.${key}`, params);
+  }
+
   view() {
     return (
       <div>
@@ -64,9 +64,7 @@ export default class SeoSettings extends Component {
       "description",
       FieldSet.component(
         {
-          label: app.translator.trans(
-            "core.admin.basics.forum_description_heading"
-          ),
+          label: app.translator.trans("core.admin.basics.forum_description_heading"),
           className:
             this.showField !== "all" && this.showField !== "description"
               ? "hidden"
@@ -76,10 +74,7 @@ export default class SeoSettings extends Component {
           <div className="helpText">
             {app.translator.trans("core.admin.basics.forum_description_text")}
           </div>,
-          <textarea
-            className="FormControl"
-            bidi={this.values.forum_description}
-          />,
+          <textarea className="FormControl" bidi={this.values.forum_description} />,
           this.showField === "description" &&
             Button.component(
               {
@@ -99,32 +94,29 @@ export default class SeoSettings extends Component {
       "keywords",
       FieldSet.component(
         {
-          label: "Forum keywords",
+          label: this.trans("forum_keywords_label"),
           className:
             this.showField !== "all" && this.showField !== "keywords"
               ? "hidden"
               : "",
         },
         [
-          <div className="helpText">
-            {"Enter one or more keywords that describes your forum."}
-          </div>,
+          <div className="helpText">{this.trans("forum_keywords_help")}</div>,
           <textarea
             className="FormControl"
             bidi={this.values.forum_keywords}
-            placeholder="Add a few keywords"
+            placeholder={this.trans("forum_keywords_placeholder")}
           />,
           <div
             className="helpText"
             style={{
               color:
-                countKeywords(this.values.forum_keywords()) == false
-                  ? "red"
-                  : null,
+                countKeywords(this.values.forum_keywords()) == false ? "red" : null,
             }}
           >
-            <b>Note: Separate keywords with a comma.</b> Example:{" "}
-            <i>flarum, web development, forum, apples, security</i>
+            <b>{this.trans("forum_keywords_note")}</b>{" "}
+            {this.trans("forum_keywords_example_prefix")}{" "}
+            <i>{this.trans("forum_keywords_example_values")}</i>
           </div>,
           this.showField === "keywords" &&
             Button.component(
@@ -145,19 +137,15 @@ export default class SeoSettings extends Component {
       "twitterCardSize",
       FieldSet.component(
         {
-          label: "Twitter card size",
+          label: this.trans("twitter_card_size_label"),
           className: this.showField !== "all" ? "hidden" : "",
         },
         [
-          <div className="helpText">
-            When your forum is shared on Twitter, it will have an image (if a
-            social media image has been set up). This can be a big card with a
-            big image, or a small card (summary) with a smaller image.
-          </div>,
+          <div className="helpText">{this.trans("twitter_card_size_help")}</div>,
           Select.component({
             options: {
-              large: "Large card (large image)",
-              summary: "Summary card (smaller image)",
+              large: this.trans("twitter_card_size_option_large"),
+              summary: this.trans("twitter_card_size_option_summary"),
             },
             value: this.values.seo_twitter_card_size() || "large",
             onchange: (val) => {
@@ -183,7 +171,7 @@ export default class SeoSettings extends Component {
       "socialMediaImage",
       FieldSet.component(
         {
-          label: "Social media image",
+          label: this.trans("social_media_image_label"),
           className:
             "social-media-uploader " +
             (this.showField !== "all" && this.showField !== "social-media"
@@ -191,14 +179,7 @@ export default class SeoSettings extends Component {
               : ""),
         },
         [
-          <div className="helpText">
-            Expecting a square image. Recommended size is 1200x1200 pixels.
-            Otherwise use a landscape image, recommended size is 1200x630.
-            <br />
-            <br />
-            This image will be used by Social Media when a user shares a page on
-            your website (Facebook, Twitter, Reddit).
-          </div>,
+          <div className="helpText">{this.trans("social_media_image_help")}</div>,
           UploadImageButton.component({
             name: "seo_social_media_image",
           }),
@@ -211,23 +192,20 @@ export default class SeoSettings extends Component {
       "crawlSettings",
       FieldSet.component(
         {
-          label: "Discussion post crawl settings",
+          label: this.trans("discussion_post_crawl_label"),
           className:
             this.showField !== "all" && this.showField !== "discussion-post"
               ? "hidden"
               : "",
         },
         [
-          <div className="helpText">
-            This is an important setting about crawling your discussion posts in
-            search results.
-          </div>,
+          <div className="helpText">{this.trans("discussion_post_crawl_help")}</div>,
           Button.component(
             {
               className: "Button",
               onclick: () => app.modal.show(CrawlPostModal),
             },
-            "Setup post crawl settings"
+            this.trans("discussion_post_crawl_action")
           ),
         ]
       ),
@@ -238,24 +216,15 @@ export default class SeoSettings extends Component {
       "noFollowLink",
       FieldSet.component(
         {
-          label: "No-follow links",
+          label: this.trans("nofollow_links_label"),
           className: this.showField !== "all" ? "hidden" : "",
         },
         [
+          <div className="helpText">{this.trans("nofollow_links_help_1")}</div>,
           <div className="helpText">
-            All links to external domains will receive a '<i>nofollow</i>'
-            attribute by default. This will make sure people do not spam your
-            forum with links to other domains in order to get more referrals.
-          </div>,
-          <div className="helpText">
-            With this setting you are able to add domains to the 'do-follow'
-            list. For example, you can add <i>flarum.org</i> to make sure links
-            to this website do not receive a 'nofollow' attribute.{" "}
-            <a
-              href={"https://github.com/vadkuz/flarum2-seo"}
-              target={"_blank"}
-            >
-              Learn more
+            {this.trans("nofollow_links_help_2_before")}{" "}
+            <a href={"https://github.com/vadkuz/flarum2-seo"} target={"_blank"}>
+              {this.trans("learn_more")}
             </a>
             .
           </div>,
@@ -267,7 +236,7 @@ export default class SeoSettings extends Component {
                 loading: this.saving,
                 onclick: () => app.modal.show(DoFollowListModal),
               },
-              "Open domain do-follow list"
+              this.trans("nofollow_links_action")
             )}
           </div>,
         ]
@@ -279,16 +248,10 @@ export default class SeoSettings extends Component {
       "linkTarget",
       FieldSet.component(
         {
-          label: "Open external links in new tab",
+          label: this.trans("open_external_in_new_tab_label"),
           className: this.showField !== "all" ? "hidden" : "",
         },
-        [
-          <div className="helpText">
-            This extension will also make sure that external links (to other
-            domains) open in a new tab. Currently it is not possible to disable
-            this setting.
-          </div>,
-        ]
+        [<div className="helpText">{this.trans("open_external_in_new_tab_help")}</div>]
       ),
       30
     );
@@ -297,7 +260,7 @@ export default class SeoSettings extends Component {
       "robots",
       FieldSet.component(
         {
-          label: "Edit robots.txt",
+          label: this.trans("robots_label"),
           className:
             this.showField !== "all" && this.showField !== "robots"
               ? "hidden"
@@ -305,19 +268,11 @@ export default class SeoSettings extends Component {
         },
         [
           <div className="helpText">
-            You can edit your robot.txt here. Please note, writing nonsense
-            could result that crawlers won't visit your site.
-            <br />
-            <br />
-            When you've{" "}
-            <a
-              href="https://discuss.flarum.org/d/14941-fof-sitemap"
-              target="_blank"
-            >
-              FriendsOfFlarum Sitemap
+            {this.trans("robots_help_before")}{" "}
+            <a href="https://discuss.flarum.org/d/14941-fof-sitemap" target="_blank">
+              {this.trans("robots_help_sitemap_link")}
             </a>{" "}
-            installed and enabled, it will be automatically added to your
-            robots.txt
+            {this.trans("robots_help_after")}
           </div>,
           <div style="height: 5px;"></div>,
           Switch.component(
@@ -325,7 +280,7 @@ export default class SeoSettings extends Component {
               state: this.allowBotsValue,
               onchange: (value) => this.saveAllowBots(value),
             },
-            "Allow all bots & crawl full site directory"
+            this.trans("robots_allow_all_bots")
           ),
           <div style="height: 5px;"></div>,
           <div>
@@ -335,14 +290,15 @@ export default class SeoSettings extends Component {
                 loading: this.saving,
                 onclick: () => app.modal.show(RobotsModal),
               },
-              "Edit robots.txt content"
+              this.trans("robots_edit_action")
             )}{" "}
             <a
               href={app.forum.attribute("baseUrl") + "/robots.txt"}
               target="_blank"
               className="robots-link"
             >
-              Open robots.txt <i className="fas fa-external-link-alt"></i>
+              {this.trans("robots_open_link")}{" "}
+              <i className="fas fa-external-link-alt"></i>
             </a>
           </div>,
         ]
@@ -354,14 +310,11 @@ export default class SeoSettings extends Component {
       "updated",
       FieldSet.component(
         {
-          label: "Updated this setting?",
+          label: this.trans("updated_setting_label"),
           className: this.showField === "all" ? "hidden" : "",
         },
         [
-          <div className="helpText">
-            When you think you're ready, click the button below to re-check the
-            status of this setting.
-          </div>,
+          <div className="helpText">{this.trans("updated_setting_help")}</div>,
           Button.component(
             {
               className: "Button",
@@ -374,7 +327,7 @@ export default class SeoSettings extends Component {
                   })
                 ),
             },
-            "Back to overview and re-check"
+            this.trans("updated_setting_action")
           ),
         ]
       ),
@@ -385,25 +338,22 @@ export default class SeoSettings extends Component {
   }
 
   infoText() {
-    if(this.showField !== 'all') {
+    if (this.showField !== "all") {
       return;
     }
 
     return (
       <div>
-        <p>This page contains some other settings from around the admin area. However, it's good to have a good overview about these settings. Do not forget to do the SEO check.</p>
-
-        <p>Check all your settings when you first setup this extensions. Maintain them to get the best search results.</p>
+        <p>{this.trans("info_1")}</p>
+        <p>{this.trans("info_2")}</p>
       </div>
     );
   }
 
-  // Settings changed
   changed() {
-    return this.fields.some(key => this.values[key]() !== app.data.settings[key]);
+    return this.fields.some((key) => this.values[key]() !== app.data.settings[key]);
   }
 
-  // Save settings!
   onsubmit(e) {
     e.preventDefault();
 
@@ -413,16 +363,19 @@ export default class SeoSettings extends Component {
     app.alerts.dismiss(this.successAlert);
 
     const settings = {};
+    this.fields.forEach((key) => (settings[key] = this.values[key]()));
 
-    this.fields.forEach(key => settings[key] = this.values[key]());
-
-    // Set twitter card size to large
-    if(settings.seo_twitter_card_size === "") {
+    if (settings.seo_twitter_card_size === "") {
       settings.seo_twitter_card_size = "large";
     }
 
     saveSettings(settings)
-      .then(() => app.alerts.show({type: 'success' },  app.translator.trans('core.admin.settings.saved_message')))
+      .then(() =>
+        app.alerts.show(
+          { type: "success" },
+          app.translator.trans("core.admin.settings.saved_message")
+        )
+      )
       .catch(() => {})
       .then(() => {
         this.saving = false;
@@ -430,36 +383,22 @@ export default class SeoSettings extends Component {
       });
   }
 
-  // Save allow bots
   saveAllowBots(value) {
     if (this.saving) return;
 
     this.saving = true;
     this.allowBotsValue = value;
 
-    let data = {};
+    const data = {};
     data.seo_allow_all_bots = value;
 
     saveSettings(data)
-      .then(() => app.alerts.show({type: 'success' },  app.translator.trans('core.admin.settings.saved_message')))
-      .catch(() => {})
-      .then(() => {
-        this.saving = false;
-        m.redraw();
-      });
-  }
-
-  // Save allow bots
-  saveSingleSetting(setting, value) {
-    if (this.saving) return;
-
-    this.saving = true;
-
-    let data = {};
-    data[setting] = value;
-
-    saveSettings(data)
-      .then(() => app.alerts.show({type: 'success' },  app.translator.trans('core.admin.settings.saved_message')))
+      .then(() =>
+        app.alerts.show(
+          { type: "success" },
+          app.translator.trans("core.admin.settings.saved_message")
+        )
+      )
       .catch(() => {})
       .then(() => {
         this.saving = false;

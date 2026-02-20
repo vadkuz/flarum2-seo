@@ -2,6 +2,229 @@ vadkuz-flarum2-seo:
   admin:
     permissions:
       configure_seo: "Разрешить настройку SEO"
+      group_label: "SEO"
+
+    menu:
+      health_check: "Проверка SEO"
+      seo_settings: "Настройки SEO"
+      sitemap_information: "Информация о sitemap"
+      search_engine_information: "Поисковые системы"
+      set_up_ssl: "Настроить SSL"
+
+    header:
+      title: "Поисковая оптимизация"
+      tools: "Инструменты"
+      health_check: "Проверка SEO"
+      seo_settings: "Настройки SEO"
+      sitemap_information: "Информация о sitemap"
+      search_engine_information: "Поисковые системы"
+      set_up_ssl: "Настроить SSL"
+
+    widget:
+      review_message: "Пора проверить SEO-настройки форума!"
+      review_action: "Запустить проверку"
+
+    ssl:
+      title: "Настройка SSL"
+      intro: "Включите SSL, чтобы защитить данные пользователей и повысить доверие поисковых систем и посетителей."
+      search_engines_title: "Поисковики предпочитают защищенные сайты"
+      search_engines_body_1: "Google и другие поисковые системы могут отдавать приоритет защищенным сайтам в выдаче."
+      search_engines_body_2: "Корректный HTTPS также убирает предупреждения браузера у посетителей."
+      what_is_title: "Что такое SSL?"
+      what_is_body: "SSL (или TLS) шифрует соединение между вашим форумом и посетителями."
+      how_to_add_title: "Как включить SSL"
+      how_to_add_body_before: "Большинство хостингов предоставляют бесплатные сертификаты через"
+      lets_encrypt_link: "Let's Encrypt"
+      done_title: "После включения SSL"
+      done_body: "Убедитесь, что базовый URL форума использует https:// и настроен редирект с http://."
+      without_ssl_title: "Если SSL не включен"
+      without_ssl_body: "Браузеры могут помечать сайт как небезопасный, а видимость в поиске может ухудшиться."
+
+    sitemap:
+      title: "Информация о sitemap"
+      intro_1: "Sitemap помогает поисковым системам быстрее находить и индексировать ваш контент."
+      intro_2: "Это расширение работает с sitemap, созданной отдельным расширением для sitemap.xml."
+      extension_title: "Рекомендуемое расширение"
+      extension_body_before: "Для генерации sitemap.xml установите"
+      extension_link: "FoF Sitemap"
+      extension_body_after: "и держите его включенным."
+      coverage_body: "В sitemap стоит включать все важные публичные страницы: обсуждения, теги и при необходимости профили."
+      installed_title: "После установки"
+      installed_body: "Проверьте, что sitemap.xml доступен публично и обновляется корректно."
+
+    search_engines:
+      title: "Регистрация в поисковых системах"
+      intro_1: "Добавьте форум в основные поисковые системы, чтобы ускорить индексацию."
+      intro_2_before: "Перед отправкой убедитесь, что"
+      intro_2_link: "настройки sitemap"
+      google_title: "Google"
+      google_body_1_before: "Откройте"
+      google_link: "Google Search Console"
+      google_body_1_after: "и добавьте сайт как ресурс."
+      google_body_2: "Подтвердите права на домен."
+      google_body_3: "После подтверждения отправьте ссылку на sitemap."
+      bing_title: "Bing"
+      bing_body_1_before: "Откройте"
+      bing_link: "Bing Webmaster Tools"
+      bing_body_1_after: "и добавьте ваш сайт."
+      bing_body_2: "Подтвердите домен и отправьте ссылку на sitemap."
+      yandex_title: "Яндекс"
+      yandex_body_1_before: "Откройте"
+      yandex_link: "Яндекс Вебмастер"
+      yandex_body_1_after: "и добавьте ваш сайт."
+      yandex_body_2: "Пройдите подтверждение и отправьте ссылку на sitemap."
+      yahoo_title: "Yahoo"
+      yahoo_body: "Поиск Yahoo работает на базе Bing, поэтому обычно достаточно регистрации в Bing."
+      confirm_button: "Готово, я проверил"
+
+    health:
+      intro_1_before: "Если нашли баг или хотите предложить функцию, используйте"
+      intro_1_forum_link: "обсуждение на Flarum"
+      intro_1_between: "или создайте issue в"
+      intro_1_issue_link: "репозитории GitHub"
+      intro_2_before: "Исходный код доступен на"
+      intro_2_github_link: "GitHub"
+      intro_2_between: "Документация доступна в"
+      intro_2_docs_link: "репозитории"
+      intro_3: "Ниже быстрая SEO-проверка текущей конфигурации форума."
+
+      table:
+        technique: "Проверка"
+        status: "Статус"
+
+      status:
+        warning: "Требует внимания"
+        all_set: "Готово"
+
+      actions:
+        update_description: "Обновить описание"
+        update_keywords: "Обновить ключевые слова"
+        setup_ssl: "Настроить SSL"
+        review_post_settings: "Проверить настройки постов"
+        update_image: "Обновить соц. изображение"
+        read_sitemap: "Открыть инструкцию по sitemap"
+        more_info: "Подробнее"
+        reviewed: "Отметить как проверенное"
+        update_setting: "Изменить настройку"
+
+      checks:
+        forum_description:
+          title: "Описание форума"
+          reason_missing: "Описание форума не заполнено."
+          reason_short: "Описание форума слишком короткое."
+          reason_default: "В описании форума все еще используется текст по умолчанию."
+
+        forum_keywords:
+          title: "Ключевые слова форума"
+          reason_missing: "Ключевые слова форума не настроены."
+
+        ssl:
+          title: "HTTPS/SSL"
+          reason_missing: "Форум не использует HTTPS."
+
+        discussion_posts:
+          title: "Индексация постов обсуждения"
+          reason_missing: "Настройка индексации постов еще не проверялась."
+
+        social_image:
+          title: "Социальное изображение"
+          reason_missing: "Не задано изображение по умолчанию для соцсетей."
+
+        sitemap:
+          title: "Sitemap"
+          reason_missing: "Не обнаружено расширение sitemap."
+
+        robots:
+          title_before: "Файл robots"
+          open_link: "Открыть robots.txt"
+
+        meta_tags:
+          title: "Поддержка meta-тегов"
+
+        search_engines:
+          title: "Регистрация в поисковиках"
+          reason_missing: "Шаг регистрации в поисковых системах еще не подтвержден."
+
+        review_again:
+          title: "Повторно проверьте SEO-настройки до {date}"
+          reason_missing: "Дата повторной проверки SEO не задана или уже прошла."
+
+    settings:
+      info_1: "Здесь настраиваются основные SEO-параметры форума."
+      info_2: "Эти настройки влияют на meta-теги, поведение роботов и превью в соцсетях."
+
+      forum_keywords_label: "Ключевые слова форума"
+      forum_keywords_help: "Ключевые слова помогают поисковым системам лучше классифицировать контент форума."
+      forum_keywords_placeholder: "Добавьте несколько ключевых слов"
+      forum_keywords_note: "Примечание: разделяйте ключевые слова запятой."
+      forum_keywords_example_prefix: "Пример:"
+      forum_keywords_example_values: "flarum, веб-разработка, форум, безопасность"
+
+      twitter_card_size_label: "Размер Twitter-карточки"
+      twitter_card_size_help: "Выберите размер Twitter-карточки по умолчанию."
+      twitter_card_size_option_large: "Большое изображение"
+      twitter_card_size_option_summary: "Краткая"
+
+      social_media_image_label: "Изображение по умолчанию для соцсетей"
+      social_media_image_help: "Используется, если в обсуждении не задано собственное соц. изображение."
+
+      discussion_post_crawl_label: "Настройки индексации постов обсуждений"
+      discussion_post_crawl_help: "Управляйте тем, как поисковые системы должны обрабатывать посты в обсуждениях."
+      discussion_post_crawl_action: "Настроить индексацию постов"
+
+      nofollow_links_label: "Исключения для do-follow ссылок"
+      nofollow_links_help_1: "Внешние ссылки по умолчанию помечаются как nofollow."
+      nofollow_links_help_2_before: "Управляйте доменами-исключениями в"
+      learn_more: "документации"
+      nofollow_links_action: "Изменить список доменов"
+
+      open_external_in_new_tab_label: "Открывать внешние ссылки в новой вкладке"
+      open_external_in_new_tab_help: "Если включено, внешние ссылки будут открываться в новой вкладке браузера."
+
+      robots_label: "Robots.txt"
+      robots_help_before: "Если вы используете расширение sitemap (например"
+      robots_help_sitemap_link: "FoF Sitemap"
+      robots_help_after: "), проверьте конфигурацию robots.txt."
+      robots_allow_all_bots: "Разрешить всех роботов"
+      robots_edit_action: "Редактировать robots.txt"
+      robots_open_link: "Открыть robots.txt"
+
+      updated_setting_label: "Настройка изменена"
+      updated_setting_help: "Вернуться на полную страницу SEO-настроек."
+      updated_setting_action: "Назад к настройкам SEO"
+
+    modals:
+      crawl_post:
+        title: "Индексация постов обсуждения"
+        intro_title: "Как индексировать посты?"
+        intro_text: "Выберите режим, который подходит вашему форуму."
+        option_default_title: "Режим по умолчанию"
+        option_default_body: "Поисковики индексируют страницу обсуждения и канонические мета-данные."
+        option_all_posts_title: "Индексировать все посты"
+        option_all_posts_body_before: "Включайте только если понимаете SEO-последствия, и при необходимости используйте"
+        option_all_posts_best_answer_link: "FoF Best Answer"
+        option_all_posts_body_after: "для более качественной выдачи."
+        confirm_title: "Включить этот режим?"
+        toggle_label: "Включить индексацию постов"
+        save_changes: "Сохранить изменения"
+        close: "Закрыть"
+
+      do_follow:
+        title: "Do-follow домены"
+        intro_1: "Укажите домены, для которых внешние ссылки не должны получать rel=\"nofollow\"."
+        intro_2: "Используйте это аккуратно, чтобы не ухудшить SEO."
+        learn_more_link: "Подробнее"
+        learn_more_suffix: "в документации проекта."
+        new_domain_placeholder: "example.com"
+        save_changes: "Сохранить изменения"
+        close: "Закрыть"
+        duplicate_domain_alert: "Этот домен уже есть в списке."
+
+      robots:
+        title: "Редактировать robots.txt"
+        placeholder: "Введите содержимое robots.txt"
+        save_changes: "Сохранить изменения"
+        close: "Закрыть"
 
   forum:
     profile_title: "Профиль {username}"
@@ -11,3 +234,98 @@ vadkuz-flarum2-seo:
       configure_seo: "Настроить SEO"
       update_seo: "Обновить SEO"
       reset_seo: "Сбросить SEO"
+
+    meta_modal:
+      title: "SEO-настройки"
+      managed: "Управляется автоматически"
+
+      alerts:
+        unsupported_object_title: "Этот объект не поддерживает SeoMeta"
+        documentation_button: "Документация"
+        unsupported_object_body: "Откройте это окно с objectType/objectId или зарегистрируйте связь SeoMeta для этой модели."
+        saved: "Сохранено!"
+
+      buttons:
+        close: "Закрыть"
+        save: "Сохранить"
+        save_autofill: "Сохранить и автозаполнить"
+        upload_file: "Загрузить файл"
+
+      notices:
+        note_label: "Примечание:"
+        autofill_warning: "Это изменение отменит ручные правки и заново заполнит meta-теги данными объекта."
+
+      actions:
+        reset_image: "Сбросить изображение"
+
+      auto_update:
+        title: "Автообновление meta-тегов"
+        help: "Если включено, meta-теги этого объекта будут автоматически обновляться при изменении данных."
+        toggle: "Обновлять SEO объекта при изменениях"
+
+      meta_title:
+        title: "Meta title"
+        help: "Заголовок, который отображается в поисковых системах."
+
+      meta_description:
+        title: "Meta description"
+        help: "Краткое описание, которое показывается в поисковой выдаче."
+
+      keywords:
+        title: "Ключевые слова"
+        help: "Укажите одно или несколько ключевых слов, описывающих объект."
+        note: "Примечание: разделяйте ключевые слова запятой."
+        example_prefix: "Пример:"
+        example_values: "flarum, веб-разработка, форум, безопасность"
+
+      meta_image:
+        title: "Meta image"
+        help: "Изображение для превью ссылки."
+        managed_by: "Источник изображения управляется через {source}"
+
+      robots:
+        title: "Robots"
+        help: "Настройки индексации для этого объекта."
+
+        tags:
+          allow_indexing: "Индексация страницы разрешена"
+          disallow_indexing: "Индексация страницы запрещена"
+          allow_follow: "Переход по ссылкам разрешен"
+          disallow_follow: "Переход по ссылкам запрещен"
+          disallow_archive: "Архивирование страницы запрещено"
+          disallow_image_indexing: "Индексация изображений запрещена"
+          disallow_snippets: "Показ текстовых сниппетов запрещен"
+
+        switches:
+          allow_indexing: "Разрешить индексацию страницы"
+          allow_follow: "Разрешить переход по ссылкам на странице"
+          noarchive: "Отключить архивирование страницы (noarchive)"
+          noimageindex: "Отключить индексацию изображений (noimageindex)"
+          nosnippet: "Отключить текстовые сниппеты (nosnippet)"
+
+      reading_time:
+        title: "Оценка времени чтения"
+        help: "Примерное время чтения в секундах."
+
+      twitter_card:
+        title: "Twitter card"
+        auto_generate: "Автогенерация Twitter card"
+        twitter_title: "Twitter title"
+        twitter_description: "Twitter description"
+        twitter_image: "Twitter image"
+        image_help: "Изображение для превью в Twitter."
+        managed_by: "Источник изображения управляется через {source} -"
+
+      open_graph:
+        title: "Open Graph теги"
+        auto_generate: "Автогенерация Open Graph тегов"
+        open_graph_title: "Open Graph title"
+        open_graph_description: "Open Graph description"
+
+      placeholders:
+        page_title: "Введите заголовок страницы"
+        meta_description: "Опишите страницу"
+        keywords: "Добавьте несколько ключевых слов"
+        image_url: "Введите URL изображения"
+        reading_time_seconds: "Время чтения в секундах"
+        custom_twitter_description: "Собственное описание Twitter"

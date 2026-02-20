@@ -1,34 +1,40 @@
-import Modal from 'flarum/common/components/Modal';
-import Button from 'flarum/common/components/Button';
-import saveSettings from 'flarum/admin/utils/saveSettings';
+import Modal from "flarum/common/components/Modal";
+import Button from "flarum/common/components/Button";
+import saveSettings from "flarum/admin/utils/saveSettings";
 
 export default class RobotsModal extends Modal {
   oninit(vnode) {
     super.oninit(vnode);
 
-    this.value = typeof app.data.settings.seo_robots_text === "undefined" ? '' : app.data.settings.seo_robots_text;
+    this.value =
+      typeof app.data.settings.seo_robots_text === "undefined"
+        ? ""
+        : app.data.settings.seo_robots_text;
     this.startValue = this.value;
-
-    this.closeText = 'Close';
+    this.closeText = this.trans("close");
     this.loading = false;
   }
 
+  trans(key) {
+    return app.translator.trans(`vadkuz-flarum2-seo.admin.modals.robots.${key}`);
+  }
+
   title() {
-    return 'Custom robots.txt';
+    return this.trans("title");
   }
 
   content() {
     return (
       <div>
         <div className="Modal-body">
-          {m('textarea', {
+          {m("textarea", {
             className: "FormControl",
             value: this.value,
-            placeholder: 'Add text to the robots.txt',
+            placeholder: this.trans("placeholder"),
             rows: 15,
             oninput: (event) => {
               this.change(event.target.value);
-            }
+            },
           })}
         </div>
         <div style="padding: 25px 30px; text-align: center;">
@@ -40,36 +46,30 @@ export default class RobotsModal extends Modal {
 
   change(value) {
     this.value = value;
-
-    this.closeText = this.value !== this.startValue ? 'Save changes' : 'Close';
+    this.closeText =
+      this.value !== this.startValue ? this.trans("save_changes") : this.trans("close");
   }
 
   closeDialogButton() {
     return (
-      <Button
-        type="submit"
-        className="Button Button--primary"
-        loading={this.loading}>
+      <Button type="submit" className="Button Button--primary" loading={this.loading}>
         {this.closeText}
       </Button>
     );
   }
 
-  // Close or save setting
-  onsubmit(e) {
-    if(this.value === this.startValue) {
+  onsubmit() {
+    if (this.value === this.startValue) {
       this.hide();
       return;
     }
 
     this.loading = true;
 
-    let data = {};
+    const data = {};
     data.seo_robots_text = this.value;
 
-    saveSettings(data).then(
-      this.onsaved.bind(this)
-    );
+    saveSettings(data).then(this.onsaved.bind(this));
   }
 
   onsaved() {

@@ -7,6 +7,10 @@ import Button from 'flarum/common/components/Button';
 import Sitemap from './Sitemap';
 
 export default class SettingsPage extends ExtensionPage {
+  trans(key) {
+    return app.translator.trans(`vadkuz-flarum2-seo.admin.menu.${key}`);
+  }
+
   content() {
     const page = m.route.param().page || 'health';
     
@@ -36,7 +40,7 @@ export default class SettingsPage extends ExtensionPage {
           })
         ),
         icon: 'fas fa-heartbeat',
-      }, 'Health check'),
+      }, this.trans('health_check')),
       Button.component({
         className: `Button ${page === 'settings' ? 'item-selected' : ''}`,
         onclick: () => m.route.set(
@@ -46,7 +50,7 @@ export default class SettingsPage extends ExtensionPage {
           })
         ),
         icon: 'fas fa-cogs',
-      }, 'SEO settings'),
+      }, this.trans('seo_settings')),
       Button.component({
         className: `Button ${page === 'sitemap' ? 'item-selected' : ''}`,
         onclick: () => m.route.set(
@@ -56,7 +60,7 @@ export default class SettingsPage extends ExtensionPage {
           })
         ),
         icon: 'fas fa-sitemap',
-      }, 'Sitemap information'),
+      }, this.trans('sitemap_information')),
       Button.component({
         className: `Button ${page === 'search-engines' ? 'item-selected' : ''}`,
         onclick: () => m.route.set(
@@ -66,7 +70,7 @@ export default class SettingsPage extends ExtensionPage {
           })
         ),
         icon: 'fas fa-search',
-      }, 'Search engine information'),
+      }, this.trans('search_engine_information')),
       Button.component({
         className: `Button ${page === 'ssl' ? 'item-selected' : ''}`,
         onclick: () => m.route.set(
@@ -76,7 +80,7 @@ export default class SettingsPage extends ExtensionPage {
           })
         ),
         icon: 'fas fa-shield-alt',
-      }, 'Set up SSL')
+      }, this.trans('set_up_ssl'))
     ];
   }
 

@@ -37,7 +37,9 @@ app.initializers.add("vadkuz-flarum2-seo", () => {
     items.add(
       "seo",
       {
-        label: "SEO",
+        label: app.translator.trans(
+          "vadkuz-flarum2-seo.admin.permissions.group_label"
+        ),
         children: permissions,
       },
       80

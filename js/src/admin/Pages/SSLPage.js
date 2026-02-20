@@ -1,28 +1,40 @@
-import Page from 'flarum/common/components/Page';
+import Page from "flarum/common/components/Page";
 
 export default class SSLPage extends Page {
+  trans(key) {
+    return app.translator.trans(`vadkuz-flarum2-seo.admin.ssl.${key}`);
+  }
+
   view() {
     return (
       <div>
-        <h2>Why do I need an secure connection?</h2>
-        <p>Safety and privacy awareness on the web is on the rise. <b>Almost every</b> developer/website owner want their website safe to use for their visitors so they won't need to be afraid that their data will be compromised by hackers or website-impersonators.</p>
+        <h2>{this.trans("title")}</h2>
+        <p>{this.trans("intro")}</p>
 
-        <h4>Search engines <i className="fas fa-heart"></i> secure connections</h4>
-        <p>When you do not have a secure connection to your website, search engines will rank your site much lower then other sites, or even won't index it.</p>
+        <h4>
+          {this.trans("search_engines_title")} <i className="fas fa-heart"></i>
+        </h4>
+        <p>{this.trans("search_engines_body_1")}</p>
+        <p>{this.trans("search_engines_body_2")}</p>
 
-        <p>When you have SSL available, your website will get an higher rank and will be indexed.</p>
+        <h4>{this.trans("what_is_title")}</h4>
+        <p>{this.trans("what_is_body")}</p>
 
-        <h4>What is SSL or TLS?</h4>
-        <p>The most people know <b>https</b> that's used for secure connections as SSL: <i>Secure Sockets Layer</i>. Officially it's called TLS: <i>Transport Layer Security</i>. This method is used to create a secure connection to your webserver what will prevent attackers or other webservers to impersonate your website and keep your visitors safe. The SSL connection will be broken if that happens and the visitors browsers will warning the user that's it's not trusted.</p>
+        <h4>{this.trans("how_to_add_title")}</h4>
+        <p>
+          {this.trans("how_to_add_body_before")}{" "}
+          <a href="https://letsencrypt.org/" target="_blank">
+            {this.trans("lets_encrypt_link")}{" "}
+            <i className="fas fa-external-link-alt"></i>
+          </a>
+          .
+        </p>
 
-        <h4>How to add SSL to your website?</h4>
-        <p>For people who are using a webhosting, the most common way is to enter the webhosting panel, go to the hosting-settings of your website and click SSL. You can follow the steps to add SSL to your website. The most webhosting companies nowadays are supporting the popular certificate issuer <a href="https://letsencrypt.org/" target="_blank"> Let's Encrypt <i className="fas fa-external-link-alt"></i></a>.</p>
+        <h4>{this.trans("done_title")}</h4>
+        <p>{this.trans("done_body")}</p>
 
-        <h4>Okay, I added SSL!</h4>
-        <p>Great! Now, change your <b>config.php</b> and change the <b>'url'</b> to <b>https</b>!</p>
-
-        <h4>What if I do not want to add SSL?</h4>
-        <p>In that case, you can uninstall this extension as search engines <b>won't index your forum</b> or rank them far below other sites due safety reasons.</p>
+        <h4>{this.trans("without_ssl_title")}</h4>
+        <p>{this.trans("without_ssl_body")}</p>
       </div>
     );
   }

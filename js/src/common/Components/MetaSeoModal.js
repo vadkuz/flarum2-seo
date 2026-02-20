@@ -114,7 +114,7 @@ export default class MetaSeoModal extends Modal {
     this.initialLoading = true;
 
     app.store
-      .find("seoMeta", `${this.attrs.objectType}-${this.attrs.objectId}`)
+      .find("seo_meta", `${this.attrs.objectType}-${this.attrs.objectId}`)
       .then((data) => {
         this.isLoading = false;
         this.meta = data;

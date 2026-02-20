@@ -38,6 +38,7 @@ app.initializers.add("vadkuz-flarum2-seo", () => {
 
   // Register SeoMeta model
   app.store.models.seoMeta = SeoMeta;
+  app.store.models.seo_meta = SeoMeta;
 
   // Register SeoMeta relations
   Discussion.prototype.seoMeta = Model.hasOne("seoMeta");

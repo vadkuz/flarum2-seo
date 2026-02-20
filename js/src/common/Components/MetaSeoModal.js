@@ -135,7 +135,11 @@ export default class MetaSeoModal extends Modal {
 
     return (
       <div>
-        <div className="Modal-body" onkeyup={() => this.updateHasChanges()}>
+        <div
+          className="Modal-body"
+          onkeyup={() => this.updateHasChanges()}
+          oninput={() => this.updateHasChanges()}
+        >
           <div className="Form">
             <div className="SeoItemContainer">
               <div className="SeoItemInfo">

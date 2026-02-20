@@ -2,78 +2,71 @@
 
 namespace Vadkuz\Flarum2Seo\Api\Controllers;
 
-use Flarum\Api\Controller\AbstractListController;
-use Flarum\Http\UrlGenerator;
+use Flarum\Api\JsonApiResponse;
 use Flarum\Http\RequestUtil;
+use Illuminate\Support\Arr;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Tobscure\JsonApi\Document;
-use Vadkuz\Flarum2Seo\Api\Serializers\SeoMetaSerializer;
+use Psr\Http\Server\RequestHandlerInterface;
 use Vadkuz\Flarum2Seo\SeoMeta\SeoMeta;
 
-class ListSeoMetaController extends AbstractListController
+class ListSeoMetaController implements RequestHandlerInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public $serializer = SeoMetaSerializer::class;
-
-    public $include = [];
-
-    public $sortFields = ['id'];
-
-    public $limit = 50;
-
-    /**
-     * @var UrlGenerator
-     */
-    protected $url;
-
-    /**
-     * @param UrlGenerator $url
-     */
-    public function __construct(UrlGenerator $url)
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $this->url = $url;
+        $actor = RequestUtil::getActor($request);
+        $actor->assertCan('seo.canConfigure');
+
+        $query = $request->getQueryParams();
+        $limit = (int) Arr::get($query, 'page.limit', Arr::get($query, 'limit', 50));
+        $offset = (int) Arr::get($query, 'page.offset', Arr::get($query, 'offset', 0));
+
+        $limit = max(1, min($limit, 100));
+        $offset = max(0, $offset);
+
+        $items = SeoMeta::query()
+            ->latest('seo_meta.created_at')
+            ->skip($offset)
+            ->take($limit)
+            ->get();
+
+        return new JsonApiResponse([
+            'data' => $items->map(fn (SeoMeta $seoMeta) => $this->serialize($seoMeta))->values()->all(),
+        ]);
     }
 
     /**
-     * {@inheritdoc}
+     * @return array<string, mixed>
      */
-    protected function data(ServerRequestInterface $request, Document $document)
+    private function serialize(SeoMeta $seoMeta): array
     {
-        $actor = RequestUtil::getActor($request);
-
-        // Make sure the person can access the agents
-        $actor->assertCan('seo.canConfigure');
-
-        // Params
-        $limit = $this->extractLimit($request);
-        $offset = $this->extractOffset($request);
-
-        $results = SeoMeta::select()
-            ->with($this->extractInclude($request))
-            ->latest('seo_meta.created_at')
-            ->skip($offset)
-            ->take($limit + 1)
-            ->get();
-
-        // Check for more results
-        $hasMoreResults = $limit > 0 && $results->count() > $limit;
-
-        // Pop
-        if ($hasMoreResults) {
-            $results->pop();
-        }
-
-        // Add pagination to the request
-        $document->addPaginationLinks(
-            $this->url->to('api')->route('seo_meta.overview'),
-            $request->getQueryParams(),
-            $offset,
-            $limit,
-            $hasMoreResults ? null : 0
-        );
-
-        return $results;
+        return [
+            'type' => 'seoMeta',
+            'id' => (string) $seoMeta->id,
+            'attributes' => [
+                'objectType' => $seoMeta->object_type,
+                'objectId' => $seoMeta->object_id,
+                'autoUpdateData' => (bool) $seoMeta->auto_update_data,
+                'title' => $seoMeta->title,
+                'description' => $seoMeta->description,
+                'keywords' => $seoMeta->keywords,
+                'robotsNoindex' => (bool) $seoMeta->robots_noindex,
+                'robotsNofollow' => (bool) $seoMeta->robots_nofollow,
+                'robotsNoarchive' => (bool) $seoMeta->robots_noarchive,
+                'robotsNoimageindex' => (bool) $seoMeta->robots_noimageindex,
+                'robotsNosnippet' => (bool) $seoMeta->robots_nosnippet,
+                'twitterTitle' => $seoMeta->twitter_title,
+                'twitterDescription' => $seoMeta->twitter_description,
+                'twitterImage' => $seoMeta->twitter_image,
+                'twitterImageSource' => $seoMeta->twitter_image_source ?? 'auto',
+                'openGraphTitle' => $seoMeta->open_graph_title,
+                'openGraphDescription' => $seoMeta->open_graph_description,
+                'openGraphImage' => $seoMeta->open_graph_image,
+                'openGraphImageSource' => $seoMeta->open_graph_image_source ?? 'auto',
+                'estimatedReadingTime' => (int) $seoMeta->estimated_reading_time,
+                'createdAt' => $seoMeta->created_at?->toAtomString(),
+                'updatedAt' => $seoMeta->updated_at?->toAtomString(),
+            ],
+        ];
     }
 }

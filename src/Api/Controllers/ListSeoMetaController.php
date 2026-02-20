@@ -2,6 +2,7 @@
 
 namespace Vadkuz\Flarum2Seo\Api\Controllers;
 
+use DateTimeInterface;
 use Flarum\Api\JsonApiResponse;
 use Flarum\Http\RequestUtil;
 use Illuminate\Support\Arr;
@@ -64,9 +65,18 @@ class ListSeoMetaController implements RequestHandlerInterface
                 'openGraphImage' => $seoMeta->open_graph_image,
                 'openGraphImageSource' => $seoMeta->open_graph_image_source ?? 'auto',
                 'estimatedReadingTime' => (int) $seoMeta->estimated_reading_time,
-                'createdAt' => $seoMeta->created_at?->toAtomString(),
-                'updatedAt' => $seoMeta->updated_at?->toAtomString(),
+                'createdAt' => $this->formatDate($seoMeta->created_at),
+                'updatedAt' => $this->formatDate($seoMeta->updated_at),
             ],
         ];
+    }
+
+    private function formatDate(mixed $value): ?string
+    {
+        if ($value instanceof DateTimeInterface) {
+            return $value->format(DateTimeInterface::ATOM);
+        }
+
+        return is_string($value) ? $value : null;
     }
 }

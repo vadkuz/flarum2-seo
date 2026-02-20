@@ -29,6 +29,10 @@ export default class DoFollowListModal extends Modal {
     return this.trans("title");
   }
 
+  className() {
+    return "Modal--small";
+  }
+
   getDomainFromBase() {
     const url = new URL(app.forum.data.attributes.baseUrl);
     const hostname = url.hostname.split(".");

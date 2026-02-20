@@ -28,6 +28,10 @@ export default class CrawlPostModal extends Modal {
     return this.trans("title");
   }
 
+  className() {
+    return "Modal--small";
+  }
+
   content() {
     return (
       <div>

@@ -29,7 +29,8 @@
     "franzl/flarum-open-links-in-new-tab": "*"
   },
   "suggest": {
-    "fof/sitemap": "Allows you to generate powerful sitemap.xml files"
+    "fof/sitemap": "Allows you to generate powerful sitemap.xml files",
+    "fof/upload": "Adds media picker support for SEO social images"
   },
   "extra": {
     "flarum-extension": {
@@ -38,7 +39,8 @@
       "optional-dependencies": [
         "flarum/tags",
         "fof/pages",
-        "fof/best-answer"
+        "fof/best-answer",
+        "fof/upload"
       ],
       "icon": {
         "name": "fas fa-check",

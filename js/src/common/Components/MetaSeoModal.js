@@ -663,9 +663,10 @@ export default class MetaSeoModal extends Modal {
   closeDialogButton() {
     return (
       <Button
-        type="submit"
+        type="button"
         className="Button Button--primary"
         loading={this.loading}
+        onclick={this.onsubmit.bind(this)}
       >
         {this.closeText}
       </Button>
@@ -749,7 +750,7 @@ export default class MetaSeoModal extends Modal {
 
   // Close or save setting
   onsubmit(e) {
-    e.preventDefault();
+    e?.preventDefault?.();
 
     if (!this.hasChanges) {
       this.hide();
@@ -768,7 +769,7 @@ export default class MetaSeoModal extends Modal {
         console.log(e);
       })
       .then(() => {
-        this.saving = false;
+        this.loading = false;
         m.redraw();
       });
   }

@@ -19,10 +19,6 @@ export default class HealthCheck extends Page {
       <div>
         <p className="seo-intro">
           {this.trans("intro_1_before")}{" "}
-          <a href="https://discuss.flarum.org/d/18316-flarum-seo" target="_blank">
-            {this.trans("intro_1_forum_link")} <i className="fas fa-external-link-alt" />
-          </a>
-          {this.trans("intro_1_between")}{" "}
           <a href="https://github.com/vadkuz/flarum2-seo/issues" target="_blank">
             {this.trans("intro_1_issue_link")} <i className="fas fa-external-link-alt" />
           </a>

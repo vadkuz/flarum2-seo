@@ -78,9 +78,7 @@ vadkuz-flarum2-seo:
       confirm_button: "Done, I reviewed this"
 
     health:
-      intro_1_before: "If you find bugs or want to request features, use"
-      intro_1_forum_link: "the Flarum discussion"
-      intro_1_between: "or open an issue in"
+      intro_1_before: "If you find a bug, open an issue in"
       intro_1_issue_link: "the GitHub repository"
       intro_2_before: "Source code is available on"
       intro_2_github_link: "GitHub"

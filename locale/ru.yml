@@ -78,9 +78,7 @@ vadkuz-flarum2-seo:
       confirm_button: "Готово, я проверил"
 
     health:
-      intro_1_before: "Если нашли баг или хотите предложить функцию, используйте"
-      intro_1_forum_link: "обсуждение на Flarum"
-      intro_1_between: "или создайте issue в"
+      intro_1_before: "Если нашли баг создайте issue в"
       intro_1_issue_link: "репозитории GitHub"
       intro_2_before: "Исходный код доступен на"
       intro_2_github_link: "GitHub"

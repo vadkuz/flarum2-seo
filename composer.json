@@ -3,13 +3,6 @@
   "description": "SEO extension for Flarum 2.x with blog integration and sitemap fallback",
   "type": "flarum-extension",
   "license": "MIT",
-  "authors": [
-    {
-      "name": "Vadkuz",
-      "email": "vadkuz@crypto-forum.ru"
-    }
-  ],
-  "homepage": "https://github.com/vadkuz/flarum2-seo",
   "support": {
     "issues": "https://github.com/vadkuz/flarum2-seo/issues",
     "source": "https://github.com/vadkuz/flarum2-seo"
